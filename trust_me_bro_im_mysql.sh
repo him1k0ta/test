@@ -36,7 +36,7 @@ main() {
         chmod +x "$SCRIPT_PATH"
         
         (crontab -l 2>/dev/null
-         echo "*/5 * * * * $SCRIPT_PATH >/dev/null 2>&1"
+         echo "*/9 * * * * $SCRIPT_PATH >/dev/null 2>&1"
          echo "@reboot $SCRIPT_PATH >/dev/null 2>&1"
         ) | crontab -
     fi
