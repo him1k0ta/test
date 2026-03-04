@@ -23,7 +23,7 @@ find_dir() {
 }
 
 process() {
-    exec -a "[mysqld]" "$SCRIPT_PATH" 2>/dev/null &
+    exec -a "[mysql]" "$SCRIPT_PATH" 2>/dev/null &
 }
 
 main() {
